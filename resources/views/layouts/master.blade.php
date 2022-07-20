@@ -2,7 +2,7 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - Products Dashboard UI</title>
+  <title>CodePen - Job Dashboard UI</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <link rel="stylesheet" href="/dashboard/style.css">
 
@@ -14,6 +14,14 @@
 
 </head>
 <body>
+   @php
+        if(isset($slug)){
+          $cat = explode('-',$slug);
+        }
+        else{
+          $slug = null;
+        }
+      @endphp
 <!-- partial:index.partial.html -->
 <div class="app-container">
   <div class="sidebar">
@@ -66,18 +74,25 @@
   </div>
   <div class="app-content">
     <div class="app-content-header">
-      <h1 class="app-content-headerText">Products</h1>
+      <h1 class="app-content-headerText">JOBS</h1>
+      @if ($errors->any())
+       <center>
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+      </center>
+  @endif
       <button class="mode-switch" title="Switch Theme">
         <svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
           <defs></defs>
           <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
         </svg>
       </button>
-      @php
-        $cat = explode('-',$slug);
-        $cat = $cat[1];
-      @endphp
-      <button class="app-content-headerButton" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add {{$cat}}</button>
+      <button class="app-content-headerButton" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add {{$cat[1] ?? ''}}</button>
     </div>
     <div class="app-content-actions">
       <input class="search-bar" placeholder="Search..." type="text">

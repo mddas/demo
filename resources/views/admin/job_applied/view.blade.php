@@ -41,19 +41,19 @@
 
           <div class="product-cell image">
             <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="product">
-            <span>Ocean</span>
+            <span>{{$dat->name}}</span>
           </div>
 
-        <div class="product-cell category"><span class="cell-label">Category:</span>Furniture</div>
+        <div class="product-cell category"><span class="cell-label">Category:</span>{{$dat->skill}}</div>
 
-         <div class="product-cell price"><span class="cell-label">Price:</span>$560</div>
+         <div class="product-cell price"><span class="cell-label">Price:</span><a href="{{$dat->file}}" ><button type="button" class="btn btn-danger" data-dismiss="modal">View</button></a></div>
 
         <div class="product-cell status-cell">
           <span class="cell-label">Status:</span>
           <span class="status active">Active</span>
         </div>
 
-        <div class="product-cell price"><span class="cell-label">Price:</span>$560</div>
+        <div class="product-cell price"><span class="cell-label">Price:</span><a href="{{route('jobdestroy',$dat->id)}}" ><button type="button" class="btn btn-danger" data-dismiss="modal">Delete</button></a></div>
 
       </div>
       @endforeach
@@ -70,18 +70,19 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form action="{{route('storejob')}}" method="POST" enctype="multipart/form-data">
+           @csrf
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Name:</label>
             <input type="text" class="form-control" id="recipient-name" name="name">
           </div>
           <div class="form-group">
             <label for="message-text" class="col-form-label">Message:</label>
-            <textarea class="form-control" id="message-text"></textarea>
+            <textarea class="form-control" id="message-text" name="message"></textarea>
           </div>
            <div class="form-group">
               <label for="message-text" class="col-form-label">Select Skill:</label>
-              <select class="form-select" aria-label="Default select example">
+              <select class="form-select" aria-label="Default select example" name="skill">
                 <option selected>Select major skill</option>
                 <option value="JAVA">JAVA</option>
                 <option value="PYTHON">PYTHON</option>
@@ -91,13 +92,13 @@
           </div>
            <div class="form-group">
             <label for="recipient-name" class="col-form-label">Upload Resume:</label>
-            <input type="text" class="form-control" name="resume">
+            <input type="file" class="form-control" name="file">
           </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Send message</button>
+            </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
       </div>
     </div>
   </div>
@@ -109,8 +110,8 @@ $('#exampleModal').on('show.bs.modal', function (event) {
   // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
   // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
   var modal = $(this)
-  modal.find('.modal-title').text('New message to ' + recipient)
-  modal.find('.modal-body input').val(recipient)
+  // modal.find('.modal-title').text('New message to ' + recipient)
+  // modal.find('.modal-body input').val(recipient)
 })
 </script>
   @endsection
