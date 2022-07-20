@@ -18,20 +18,22 @@ use App\Http\Controllers\UserController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/',[AdminController::class,'tempindex'])->name('admin');
-Route::get('/{admin}',[AdminController::class,'index'])->name('admin');
-Route::get('/admin/users/{users}',[UserController::class,'index'])->name('users');
-Route::get('/admin/roles/{roles}',[AdminController::class,'index'])->name('roles');
-Route::get('/admin/permisson/{permissons}',[AdminController::class,'index'])->name('permissons');
-Route::get('/admin/job/{jobs}',[JobApplyController::class,'index'])->name('jobs');
-
-Route::POST('/admin/job/store',[JobApplyController::class,'jobstore'])->name('storejob');
-Route::GET('/admin/job/destroy/{id}',[JobApplyController::class,'destroy'])->name('jobdestroy');
-Route::GET('/admin/user/destroy/{id}',[UserController::class,'destroy'])->name('userdestroy');
-
-
+require __DIR__.'/auth.php';
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+Route::get('logout', [AdminController::class,'logout'])->name('logout');
+Route::get('/',[AdminController::class,'tempindex'])->middleware(['auth'])->name('admin');
+Route::get('/{admin}',[AdminController::class,'index'])->middleware(['auth'])->name('admin');
+Route::get('/admin/users/{users}',[UserController::class,'index'])->middleware(['auth'])->name('users');
+Route::get('/admin/roles/{roles}',[AdminController::class,'index'])->middleware(['auth'])->name('roles');
+Route::get('/admin/permisson/{permissons}',[AdminController::class,'index'])->middleware(['auth'])->name('permissons');
+Route::get('/admin/job/{jobs}',[JobApplyController::class,'index'])->middleware(['auth'])->name('jobs');
+
+Route::POST('/admin/job/store',[JobApplyController::class,'jobstore'])->middleware(['auth'])->name('storejob');
+Route::GET('/admin/job/destroy/{id}',[JobApplyController::class,'destroy'])->middleware(['auth'])->name('jobdestroy');
+Route::GET('/admin/user/destroy/{id}',[UserController::class,'destroy'])->middleware(['auth'])->name('userdestroy');
+
+
+
